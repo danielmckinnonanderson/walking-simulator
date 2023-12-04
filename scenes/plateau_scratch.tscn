@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dswyuy3t8vcdr"]
+
+[ext_resource type="PackedScene" uid="uid://h2jksnhvv705" path="res://assets/models/plateau.glb" id="1_hsnm3"]
+
+[node name="plateau" instance=ExtResource("1_hsnm3")]

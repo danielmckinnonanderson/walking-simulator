@@ -1,0 +1,85 @@
+[gd_scene load_steps=10 format=3 uid="uid://c6ywwwyx7vmt4"]
+
+[ext_resource type="Script" path="res://src/World.cs" id="1_4h12b"]
+[ext_resource type="PackedScene" uid="uid://b743olr23w6mr" path="res://assets/models/sunset.glb" id="1_5pgba"]
+[ext_resource type="PackedScene" uid="uid://bsu5rcbfxhbbq" path="res://scenes/plateau.tscn" id="4_g0ljq"]
+[ext_resource type="PackedScene" uid="uid://di620w1i01yiv" path="res://scenes/player.tscn" id="4_y42ud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_484kk"]
+sky_top_color = Color(0.52549, 0.270588, 0.0705882, 1)
+sky_horizon_color = Color(0.631373, 0.567647, 0.517647, 1)
+sky_energy_multiplier = 0.6
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.631373, 0.567647, 0.517647, 1)
+
+[sub_resource type="Sky" id="Sky_imia4"]
+sky_material = SubResource("ProceduralSkyMaterial_484kk")
+
+[sub_resource type="Environment" id="Environment_tb5ur"]
+background_mode = 2
+sky = SubResource("Sky_imia4")
+ssr_enabled = true
+ssao_enabled = true
+ssao_intensity = 0.73
+ssao_detail = 1.41
+ssao_light_affect = 0.17
+sdfgi_enabled = true
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 3.16
+glow_bloom = 0.18
+fog_enabled = true
+fog_light_color = Color(0.639216, 0.670588, 0.721569, 1)
+fog_light_energy = 0.63
+fog_sun_scatter = 0.07
+fog_density = 0.0065
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0053
+volumetric_fog_albedo = Color(0.435294, 0.341176, 0.560784, 1)
+volumetric_fog_anisotropy = 0.49
+volumetric_fog_detail_spread = 4.75683
+volumetric_fog_ambient_inject = 1.08
+volumetric_fog_sky_affect = 0.21
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_uanwb"]
+exposure_multiplier = 1.01
+auto_exposure_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j70fs"]
+size = Vector3(500, 20, 500)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_4h12b")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tb5ur")
+camera_attributes = SubResource("CameraAttributesPhysical_uanwb")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.790464, -0.340812, 0.508934, 0.410354, -0.322194, -0.853112, 0.454726, 0.883198, -0.114829, 75.9789, -72.5985, -16.2308)
+light_color = Color(1, 0.462745, 0.301961, 1)
+light_energy = 14.218
+light_indirect_energy = 6.238
+light_volumetric_fog_energy = 11.143
+light_angular_distance = 12.85
+shadow_enabled = true
+shadow_blur = 1.505
+sky_mode = 1
+
+[node name="SunsetSkybox" parent="." instance=ExtResource("1_5pgba")]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, -0.14703, 4.80076, -0.241577)
+
+[node name="player" parent="." instance=ExtResource("4_y42ud")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
+collision_mask = 1
+
+[node name="KillFloor" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -78.2742, 0)
+collision_layer = 0
+
+[node name="KillFloorBoundary" type="CollisionShape3D" parent="KillFloor"]
+shape = SubResource("BoxShape3D_j70fs")
+
+[node name="plateau" parent="." instance=ExtResource("4_g0ljq")]
+
+[connection signal="area_entered" from="KillFloor" to="." method="_OnKillFloorEntered"]
