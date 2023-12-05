@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://di620w1i01yiv"]
+[gd_scene load_steps=5 format=3 uid="uid://di620w1i01yiv"]
 
 [ext_resource type="Script" path="res://src/Player.cs" id="1_h1ym7"]
 
@@ -11,12 +11,11 @@ roughness = 0.4
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sampy"]
 material = SubResource("StandardMaterial3D_thooh")
 
-[sub_resource type="BoxMesh" id="BoxMesh_ju3hi"]
-size = Vector3(0.1, 0.1, 1)
-
 [node name="player" type="CharacterBody3D"]
 collision_mask = 0
 script = ExtResource("1_h1ym7")
+CameraLimitUpper = 1.8
+CameraFlipInputVert = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -27,10 +26,6 @@ shape = SubResource("CapsuleShape3D_jkutj")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98668, 0)
 mesh = SubResource("CapsuleMesh_sampy")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Model/MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.522238, -0.836118)
-mesh = SubResource("BoxMesh_ju3hi")
 
 [node name="CameraYPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.125, 0)
